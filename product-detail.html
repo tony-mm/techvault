@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UltraPhone 15 Pro — TechVault Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div><a href="#">Help Center</a></div>
+            <div>🚚 Free delivery on selected items</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <i class="fas fa-microchip"></i>
+                <span>TechVault</span>
+            </a>
+            <form class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search products, brands and categories">
+                <button class="search-btn">SEARCH</button>
+            </form>
+            <div class="header-actions">
+                <div class="action-item"><i class="far fa-user"></i>
+                    <div class="action-text">Login</div>
+                </div>
+                <div class="action-item" id="cartOpen">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="action-text">Cart</div>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container" style="max-width: 1200px; margin: 1rem auto; padding: 0 1rem;">
+        <!-- BREADCRUMBS -->
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+            <a href="index.html">Home</a> > <a href="products.html">Smartphones</a> > <a href="product-detail.html"
+                style="color: var(--text-dark);">UltraPhone 15 Pro</a>
+        </div>
+
+        <div class="detail-grid" id="productDetailPage">
+            <!-- PRODUCT INFO AREA -->
+            <main class="detail-main">
+                <div class="detail-layout-inner">
+                    <!-- GALLERY -->
+                    <div class="detail-gallery">
+                        <div class="detail-img-main" id="detailImgContainer">
+                            <!-- Image dynamically loaded -->
+                        </div>
+                    </div>
+
+                    <!-- INFO SECTION -->
+                    <div class="detail-info">
+                        <span id="expressBadge"
+                            style="display:none; background:var(--primary); color:#fff; font-size:0.7rem; padding:2px 8px; border-radius:10px; margin-bottom:0.5rem;">TechVault
+                            Express</span>
+                        <h1 id="detailTitle">Product Name Loading...</h1>
+                        <div style="font-size: 0.8rem; margin-bottom: 1rem;">Brand: <a href="#"
+                                style="color: var(--accent-blue);">TechVault</a> | <a href="#"
+                                style="color: var(--accent-blue);">Similar products from TechVault</a></div>
+
+                        <div class="detail-price-section">
+                            <div class="detail-price" id="detailPrice">$0.00</div>
+                            <div style="display:flex; align-items:center; gap:10px; margin-top:0.5rem;">
+                                <span class="detail-old-price" id="detailOldPrice"></span>
+                                <span class="detail-discount" id="detailDiscount"></span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">In stock</p>
+                        </div>
+
+                        <!-- VARIATION SELECTORS -->
+                        <div id="variationsContainer" style="margin-bottom: 1.5rem;">
+                            <!-- Storage Options -->
+                            <div id="storageSection" style="margin-bottom: 1rem; display: none;">
+                                <h6 style="font-size: 0.85rem; margin-bottom: 0.5rem;">Storage:</h6>
+                                <div id="storageOptions" style="display:flex; gap:10px; flex-wrap: wrap;"></div>
+                            </div>
+
+                            <!-- Color Options -->
+                            <div id="colorSection" style="margin-bottom: 1rem; display: none;">
+                                <h6 style="font-size: 0.85rem; margin-bottom: 0.5rem;">Color:</h6>
+                                <div id="colorOptions" style="display:flex; gap:10px; flex-wrap: wrap;"></div>
+                            </div>
+
+                            <!-- Selected Variation Display -->
+                            <div id="selectedVariation" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; display: none;">
+                                Selected: <span id="selectedVariationText" style="color: var(--text-dark); font-weight: 600;"></span>
+                            </div>
+                        </div>
+
+                        <div class="add-to-cart-action">
+                            <div class="qty-ctrl">
+                                <span>Quantity:</span>
+                                <div style="display:flex; align-items:center;">
+                                    <button class="qty-btn" id="qtyMinus">-</button>
+                                    <span style="width: 40px; text-align: center; font-weight: 700;"
+                                        id="qtyValue">1</span>
+                                    <button class="qty-btn" id="qtyPlus">+</button>
+                                </div>
+                            </div>
+                            <button class="buy-now-btn" id="addToCartBtn">ADD TO CART</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABS / DESCRIPTION -->
+                <div style="margin-top: 2rem; border-top: 1px solid var(--gray-border); padding-top: 2rem;">
+                    <h4
+                        style="font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: inline-block;">
+                        Product Details</h4>
+                    <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-dark);" id="detailDescription">
+                        <!-- Description dynamically loaded -->
+                    </div>
+                </div>
+            </main>
+
+            <!-- SIDEBAR DELIVERY / VENDOR INFO -->
+            <aside class="delivery-box">
+                <h5 style="font-size: 0.9rem; margin-bottom: 1rem; text-transform: uppercase;">Delivery & Returns</h5>
+
+                <div class="del-item">
+                    <div class="del-icon"><i class="fas fa-truck-moving"></i></div>
+                    <div class="del-text">
+                        <h6>Door Delivery</h6>
+                        <p>Delivery $5.10. Ready for delivery between 22 February & 25 February when you order within
+                            next 5hrs</p>
+                    </div>
+                </div>
+
+                <div class="del-item">
+                    <div class="del-icon"><i class="fas fa-undo"></i></div>
+                    <div class="del-text">
+                        <h6>Return Policy</h6>
+                        <p>Free return within 7 days for TechVault Mall items</p>
+                    </div>
+                </div>
+
+                <div class="del-item" style="border:none;">
+                    <div class="del-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="del-text">
+                        <h6>Warranty</h6>
+                        <p>2 Years Manufacturer Warranty</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; border-top: 1px solid var(--gray-border); padding-top: 1rem;">
+                    <h5 style="font-size: 0.9rem; margin-bottom: 1rem; text-transform: uppercase;">Brand Information
+                    </h5>
+                    <h6 style="color: var(--primary); font-size: 0.9rem;">TechVault Official Store</h6>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Verified Brand Store |
+                        Trusted Excellence</p>
+                    <a href="index.html"
+                        style="font-size: 0.8rem; color: var(--accent-blue); display: block; margin-top: 0.5rem;">View
+                        Brand Page ></a>
+                </div>
+            </aside>
+        </div>
+
+        <!-- RELATED PRODUCTS -->
+        <section class="section-box" style="margin-top:2rem;">
+            <div class="section-header">
+                <h3>Customers who viewed this also viewed</h3>
+            </div>
+            <div class="product-scroll">
+                <div class="product-card" onclick="location.href='product-detail.html'">
+                    <div class="card-img"><svg viewBox="0 0 100 100">
+                            <rect x="30" y="20" width="40" height="60" rx="2" fill="#333" />
+                        </svg></div>
+                    <div class="card-info">
+                        <div class="card-name">SmartWatch Elite</div>
+                        <div class="card-price">$349</div>
+                    </div>
+                </div>
+                <div class="product-card" onclick="location.href='product-detail.html'">
+                    <div class="card-img"><svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="30" fill="#333" />
+                        </svg></div>
+                    <div class="card-info">
+                        <div class="card-name">ProMax Earbuds</div>
+                        <div class="card-price">$224</div>
+                    </div>
+                </div>
+                <div class="product-card" onclick="location.href='product-detail.html'">
+                    <div class="card-img"><svg viewBox="0 0 100 100">
+                            <rect x="15" y="20" width="70" height="50" rx="2" fill="#333" />
+                        </svg></div>
+                    <div class="card-info">
+                        <div class="card-name">AirBook Pro</div>
+                        <div class="card-price">$1,799</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h5>Help</h5><a href="#">Help Center</a><a href="#">Contact Us</a>
+            </div>
+            <div class="footer-col">
+                <h5>About</h5><a href="#">About us</a><a href="#">Terms</a>
+            </div>
+            <div class="footer-col">
+                <h5>Payment</h5><i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Shopping Cart (<span id="cartCountDrawer">0</span>)</h3><button class="cart-close"
+                id="cartClose">&times;</button>
+        </div>
+        <div class="cart-body">
+            <div class="cart-empty" id="cartEmpty">
+                <p>Your cart is empty!</p>
+                <button class="cart-empty-btn" onclick="location.href='products.html'">START SHOPPING</button>
+            </div>
+            <div id="cartItems"></div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total"><span>Subtotal</span><span id="cartTotal">$0</span></div>
+            <button class="checkout-btn">CHECKOUT</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"
+        style="position: fixed; bottom: 20px; left: 20px; background: #313133; color: #fff; padding: 12px 20px; border-radius: 4px; transform: translateY(100px); opacity: 0; transition: 0.3s; z-index: 3000; border-left: 4px solid var(--primary);">
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Simple qty toggle for demo
+        const qtyValue = document.getElementById('qtyValue');
+        document.getElementById('qtyPlus')?.addEventListener('click', () => {
+            let val = parseInt(qtyValue.innerText);
+            qtyValue.innerText = val + 1;
+        });
+        document.getElementById('qtyMinus')?.addEventListener('click', () => {
+            let val = parseInt(qtyValue.innerText);
+            if (val > 1) qtyValue.innerText = val - 1;
+        });
+    </script>
+</body>
+
+</html>

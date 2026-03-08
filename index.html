@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechVault — Marketplace for Premium Tech</title>
+    <meta name="description"
+        content="Shop premium tech gadgets at TechVault. Phones, laptops, audio, and more. Best prices, fast delivery.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div><a href="#">Help Center</a></div>
+            <div>🚚 Free delivery on selected items</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <i class="fas fa-microchip"></i>
+                <span>TechVault</span>
+            </a>
+
+            <div class="search-wrapper">
+                <form class="search-container" id="searchForm">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search products, brands and categories" id="searchInput" autocomplete="off">
+                    <button type="submit" class="search-btn">SEARCH</button>
+                </form>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+
+            <div class="header-actions">
+                <div class="action-item">
+                    <i class="far fa-user"></i>
+                    <div class="action-text">Login</div>
+                </div>
+                <div class="action-item">
+                    <i class="far fa-question-circle"></i>
+                    <div class="action-text">Help</div>
+                </div>
+                <div class="action-item" id="cartOpen">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="action-text">Cart</div>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="home-container">
+        <!-- CATEGORY SIDEBAR -->
+        <aside class="sidebar">
+            <ul class="sidebar-list">
+                <li><a href="products.html?category=Smartphones"><i class="fas fa-mobile-alt"></i> Smartphones</a></li>
+                <li><a href="products.html?category=Laptops"><i class="fas fa-laptop"></i> Laptops &amp; Computers</a></li>
+                <li><a href="products.html?category=Headphones"><i class="fas fa-headphones"></i> Audio &amp; Speakers</a></li>
+                <li><a href="products.html?category=Smartwatches"><i class="fas fa-clock"></i> Smartwatches</a></li>
+                <li><a href="products.html?category=Cameras"><i class="fas fa-camera"></i> Cameras</a></li>
+                <li><a href="products.html?category=Gaming"><i class="fas fa-gamepad"></i> Gaming Console</a></li>
+                <li><a href="products.html?category=Accessories"><i class="fas fa-plug"></i> Accessories</a></li>
+                <li><a href="products.html?category=Television"><i class="fas fa-tv"></i> Television</a></li>
+                <li><a href="products.html?category=Power"><i class="fas fa-bolt"></i> Power Banks</a></li>
+                <li><a href="products.html"><i class="fas fa-ellipsis-h"></i> All Categories</a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <div class="hero-wrapper">
+            <!-- HERO SLIDER -->
+            <div class="hero-slider" id="heroSlider">
+                <div class="hero-slides-track" id="heroSlidesTrack">
+                    <!-- Slides rendered by script.js -->
+                </div>
+                <button class="slider-arrow slider-prev" id="sliderPrev" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-arrow slider-next" id="sliderNext" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="slider-dots" id="sliderDots"></div>
+            </div>
+
+            <!-- PROMO CARDS -->
+            <div class="promo-grid">
+                <div class="promo-card">
+                    <div class="promo-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <div class="promo-text">
+                        <h4>Fast Delivery</h4>
+                        <p>Free for orders over $100</p>
+                    </div>
+                </div>
+                <div class="promo-card">
+                    <div class="promo-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="promo-text">
+                        <h4>Quality Assured</h4>
+                        <p>Verified products only</p>
+                    </div>
+                </div>
+                <div class="promo-card">
+                    <div class="promo-icon"><i class="fas fa-undo"></i></div>
+                    <div class="promo-text">
+                        <h4>7 Days Return</h4>
+                        <p>Easy returns & refunds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="page-container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+
+        <!-- FLASH SALES -->
+        <section class="section-box">
+            <div class="section-header flash">
+                <h3><i class="fas fa-bolt"></i> FLASH SALES</h3>
+                <div class="timer" id="flashSaleTimer">Ends In: 00h : 00m : 00s</div>
+                <a href="products.html" class="see-all">SEE ALL ></a>
+            </div>
+            <div class="product-scroll" id="flashSalesList">
+                <!-- Products dynamically rendered from script.js -->
+            </div>
+        </section>
+
+        <!-- TOP DEALS -->
+        <section class="section-box">
+            <div class="section-header">
+                <h3>Top Deals</h3>
+                <a href="products.html" class="see-all">SEE ALL ></a>
+            </div>
+            <div class="product-scroll" id="topDealsList">
+                <!-- Products dynamically rendered from script.js -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h5>LET US HELP YOU</h5>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">How to shop on TechVault</a>
+                <a href="#">Shipping & delivery</a>
+                <a href="#">Return Policy</a>
+                <a href="#">Corporate & Bulk Purchase</a>
+                <a href="#">Report a Product</a>
+            </div>
+            <div class="footer-col">
+                <h5>ABOUT TECHVAULT</h5>
+                <a href="#">About us</a>
+                <a href="#">TechVault careers</a>
+                <a href="#">TechVault Express</a>
+                <a href="#">Terms and Conditions</a>
+                <a href="#">Privacy Notice</a>
+                <a href="#">Flash Sales</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col">
+                    <h5>PAYMENT METHODS</h5>
+                    <div style="display:flex; gap:10px; font-size:1.5rem; color:#fff;">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h5 style="margin-top:20px;">FOLLOW US</h5>
+                    <div style="display:flex; gap:15px; font-size:1.2rem; color:#fff;">
+                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2026 TechVault. All rights reserved.</div>
+                <div style="display:flex; gap:20px;">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+    </footer>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Shopping Cart (<span id="cartCountDrawer">0</span>)</h3>
+            <button class="cart-close" id="cartClose">&times;</button>
+        </div>
+        <div class="cart-body">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #f1f1f2; margin-bottom: 1rem;"></i>
+                <p>Your cart is empty!</p>
+                <button class="cart-empty-btn" onclick="location.href='products.html'">START SHOPPING</button>
+            </div>
+            <div id="cartItems"></div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total">
+                <span>Subtotal</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="checkout-btn">CHECKOUT</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"
+        style="position: fixed; bottom: 20px; left: 20px; background: #313133; color: #fff; padding: 12px 20px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transform: translateY(100px); opacity: 0; transition: 0.3s; z-index: 3000; border-left: 4px solid var(--primary);">
+        <span id="toastMsg">Item added to cart</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

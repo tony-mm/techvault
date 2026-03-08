@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products — TechVault Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div><a href="#">Help Center</a></div>
+            <div>🚚 Free delivery on selected items</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <i class="fas fa-microchip"></i>
+                <span>TechVault</span>
+            </a>
+            <div class="search-wrapper">
+                <form class="search-container" id="searchForm">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search products, brands and categories" id="searchInput" autocomplete="off">
+                    <button type="submit" class="search-btn">SEARCH</button>
+                </form>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+            <div class="header-actions">
+                <div class="action-item"><i class="far fa-user"></i>
+                    <div class="action-text">Login</div>
+                </div>
+                <div class="action-item" id="cartOpen">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="action-text">Cart</div>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container" style="max-width: 1200px; margin: 1rem auto; padding: 0 1rem;">
+        <!-- BREADCRUMBS -->
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+            <a href="index.html">Home</a> > <a href="products.html" id="breadcrumbCategory" style="color: var(--text-dark);">All Products</a>
+        </div>
+
+        <!-- PAGE BANNER -->
+        <div class="shop-banner">
+            <h1 id="pageBanner">All Products</h1>
+        </div>
+
+        <div class="shop-layout">
+            <!-- FILTER SIDEBAR -->
+            <aside class="filter-box">
+                <div class="filter-title">Filter Results</div>
+
+                <div class="filter-group" id="categoryFilterGroup">
+                    <div class="filter-group-title">Category</div>
+                    <!-- Dynamically populated by script.js -->
+                </div>
+
+                <div class="filter-group" id="brandFilterGroup">
+                    <div class="filter-group-title">Brand</div>
+                    <!-- Dynamically populated by script.js -->
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">Price ($)</div>
+                    <div class="filter-item"><input type="radio" name="price"> Under 100</div>
+                    <div class="filter-item"><input type="radio" name="price"> 100 - 500</div>
+                    <div class="filter-item"><input type="radio" name="price"> 500 - 1000</div>
+                    <div class="filter-item"><input type="radio" name="price" checked> All Prices</div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">Rating</div>
+                    <div class="filter-item"><input type="checkbox"> 4 Stars & Above</div>
+                    <div class="filter-item"><input type="checkbox"> 3 Stars & Above</div>
+                </div>
+            </aside>
+
+            <!-- PRODUCT GRID -->
+            <main>
+                <div class="listing-header">
+                    <div style="font-size: 0.9rem;"><strong>24</strong> items found</div>
+                    <div style="font-size: 0.85rem;">Sort by:
+                        <select style="border: 1px solid var(--gray-border); padding: 4px; border-radius: 4px;">
+                            <option>Popularity</option>
+                            <option>Newest Arrivals</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Product Rating</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-container" id="productList">
+                    <!-- Products dynamically rendered from script.js -->
+                </div>
+
+                <!-- PAGINATION -->
+                <div style="display: flex; justify-content: center; margin-top: 3rem; gap: 0.5rem;">
+                    <button
+                        style="width: 35px; height: 35px; background: var(--white); border: 1px solid var(--gray-border); border-radius: 4px; color: var(--primary);">1</button>
+                    <button
+                        style="width: 35px; height: 35px; background: var(--white); border: 1px solid var(--gray-border); border-radius: 4px;">2</button>
+                    <button
+                        style="width: 35px; height: 35px; background: var(--white); border: 1px solid var(--gray-border); border-radius: 4px;">3</button>
+                    <button
+                        style="padding: 0 1rem; height: 35px; background: var(--white); border: 1px solid var(--gray-border); border-radius: 4px;">Next
+                        ></button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h5>LET US HELP YOU</h5>
+                <a href="#">Help Center</a><a href="#">Contact Us</a><a href="#">Return Policy</a>
+            </div>
+            <div class="footer-col">
+                <h5>ABOUT TECHVAULT</h5>
+                <a href="#">About us</a><a href="#">Terms and Conditions</a><a href="#">Privacy Notice</a>
+            </div>
+            <div class="footer-col">
+                <h5>FOLLOW US</h5>
+                <div style="display:flex; gap:15px; font-size:1.2rem; color:#fff;">
+                    <i class="fab fa-facebook"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Shopping Cart (<span id="cartCountDrawer">0</span>)</h3>
+            <button class="cart-close" id="cartClose">&times;</button>
+        </div>
+        <div class="cart-body">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #f1f1f2; margin-bottom: 1rem;"></i>
+                <p>Your cart is empty!</p>
+                <button class="cart-empty-btn" onclick="location.href='products.html'">START SHOPPING</button>
+            </div>
+            <div id="cartItems"></div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total"><span>Subtotal</span><span id="cartTotal">$0</span></div>
+            <button class="checkout-btn">CHECKOUT</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Wireless Bluetooth Earbuds",
+      "price": 49.99,
+      "oldPrice": 79.99,
+      "category": "Headphones",
+      "brand": "TechVault",
+      "rating": 5,
+      "reviews": 256,
+      "discount": "-38%",
+      "express": true,
+      "image": "headphones",
+      "description": "Premium wireless earbuds with active noise cancellation, 30-hour battery life, and crystal clear sound quality. Perfect for music lovers and professionals.",
+      "stock": 50,
+      "featured": true
+    },
+    {
+      "id": 2,
+      "name": "Smart Watch Pro",
+      "price": 199.99,
+      "oldPrice": 299.99,
+      "category": "Accessories",
+      "brand": "TechVault",
+      "rating": 4,
+      "reviews": 189,
+      "discount": "-33%",
+      "express": true,
+      "image": "watch",
+      "description": "Advanced fitness tracking, heart rate monitor, GPS, and 7-day battery life. Water-resistant up to 50 meters.",
+      "stock": 30,
+      "featured": true
+    },
+    {
+      "id": 3,
+      "name": "USB-C Fast Charger 65W",
+      "price": 29.99,
+      "oldPrice": 49.99,
+      "category": "Accessories",
+      "brand": "TechVault",
+      "rating": 5,
+      "reviews": 432,
+      "discount": "-40%",
+      "express": false,
+      "image": "charger",
+      "description": "Ultra-fast charging for laptops, tablets, and phones. Compact design with multiple safety protections.",
+      "stock": 100,
+      "featured": false
+    },
+    {
+      "id": 4,
+      "name": "Mechanical Gaming Keyboard",
+      "price": 89.99,
+      "oldPrice": 129.99,
+      "category": "Accessories",
+      "brand": "TechVault",
+      "rating": 5,
+      "reviews": 178,
+      "discount": "-31%",
+      "express": true,
+      "image": "keyboard",
+      "description": "RGB backlit mechanical keyboard with blue switches, perfect for gaming and typing. Durable aluminum frame.",
+      "stock": 25,
+      "featured": true
+    }
+  ]
+}

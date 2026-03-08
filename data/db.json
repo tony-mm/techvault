@@ -1,0 +1,103 @@
+{
+  "products": [
+    {
+      "id": 2,
+      "name": "Samsung Galaxy S25+ Cell Phone, 512GB Smartphone, Unlocked Android, AI Night Mode Camera, Snapdragon 8 Elite Fast Processor, ProScaler Display, 4900mAh Battery, 2025, US 1 Yr Warranty, Silver Shadow",
+      "price": 1300,
+      "oldPrice": 1450,
+      "category": "Smartphones",
+      "brand": "Samsung",
+      "rating": 5,
+      "reviews": 0,
+      "discount": "-10%",
+      "express": false,
+      "isFlashSale": false,
+      "image": "https://m.media-amazon.com/images/I/61FMhLDKKnL._AC_SX679_.jpg",
+      "imageType": "url",
+      "description": "\nBrand\tSamsung\nOperating System\tAndroid 15, One UI 7\nRam Memory Installed Size\t12 GB\nCPU Model\tSnapdragon\nCPU Speed\t4.47 GHz\nMemory Storage Capacity\t512 GB\nScreen Size\t6.7 Inches\nResolution\t1440 x 3120\nRefresh Rate\t120\nModel Name\tSamsung Galaxy S25+",
+      "stock": 50,
+      "featured": true,
+      "variations": {
+        "storage": [
+          "128GB",
+          "256GB",
+          "512GB"
+        ],
+        "colors": [
+          {
+            "name": "Silver Shadow",
+            "hex": "#939496",
+            "image": "https://m.media-amazon.com/images/I/61FMhLDKKnL._AC_SL1500_.jpg",
+            "imageType": "url"
+          },
+          {
+            "name": "Mint",
+            "hex": "#e0f7e3",
+            "image": "https://m.media-amazon.com/images/I/6101P9g3GSL._AC_SL1500_.jpg",
+            "imageType": "url"
+          },
+          {
+            "name": "Navy",
+            "hex": "#1c2f57",
+            "image": "https://m.media-amazon.com/images/I/61C17Al0dhL._AC_SL1500_.jpg",
+            "imageType": "url"
+          },
+          {
+            "name": "Icy Blue",
+            "hex": "#c8cede",
+            "image": "https://m.media-amazon.com/images/I/61SuSPVkypL._AC_SL1500_.jpg",
+            "imageType": "url"
+          }
+        ]
+      },
+      "_id": "1772977946174",
+      "createdAt": "2026-03-08T13:52:26.176Z",
+      "updatedAt": "2026-03-08T14:00:43.056Z"
+    },
+    {
+      "id": 3,
+      "name": "Apple iPhone 16 Pro Max, 256GB, US Version, Desert Titanium - Verizon (Renewed)",
+      "price": 1000,
+      "oldPrice": 1100,
+      "category": "Smartphones",
+      "brand": "Apple",
+      "rating": 5,
+      "reviews": 0,
+      "discount": "-9%",
+      "express": false,
+      "isFlashSale": false,
+      "image": "https://m.media-amazon.com/images/I/61bOls8zUZL._AC_SX522_.jpg",
+      "imageType": "url",
+      "description": "\nBrand\tApple\nOperating System\tiOS 17\nRam Memory Installed Size\t8 GB\nCPU Model\tApple A18 Pro\nCPU Speed\t2.42 GHz\nMemory Storage Capacity\t256 GB\nScreen Size\t6.9 Inches\nModel Name\tiPhone 16 Pro Max\nWireless Carrier\tVerizon\nCellular Technology\t5G",
+      "stock": 20,
+      "featured": true,
+      "variations": {
+        "storage": [
+          "256GB",
+          "512GB",
+          "1TB"
+        ],
+        "colors": [
+          {
+            "name": "Black Titanium",
+            "hex": "#383838",
+            "image": "https://m.media-amazon.com/images/I/61bOls8zUZL._AC_SX522_.jpg",
+            "imageType": "url"
+          },
+          {
+            "name": "White Titanium",
+            "hex": "#f2f2f0",
+            "image": "https://m.media-amazon.com/images/I/61SF3HaHYwL._AC_SX522_.jpg",
+            "imageType": "url"
+          }
+        ]
+      },
+      "_id": "1772978984327",
+      "createdAt": "2026-03-08T14:09:44.351Z"
+    }
+  ],
+  "heroSlides": [],
+  "settings": {
+    "flashSaleEndTime": ""
+  }
+}

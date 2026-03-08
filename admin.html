@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Products | TechVault</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .admin-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        .admin-header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .form-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-border);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-submit {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: var(--primary-hover);
+        }
+        .products-list {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .product-table th,
+        .product-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-border);
+        }
+        .product-table th {
+            background: #f9f9f9;
+            font-weight: 600;
+        }
+        .product-table tr:hover {
+            background: #f9f9f9;
+        }
+        .btn-edit,
+        .btn-delete {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            margin-right: 0.5rem;
+        }
+        .btn-edit {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        .btn-delete {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            border: 1px solid var(--gray-border);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            margin-top: 0.5rem;
+        }
+        .image-preview i {
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-table {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div><a href="#">Admin Panel</a></div>
+            <div>🛍️ Manage Your Products</div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <i class="fas fa-microchip"></i>
+                <span>TechVault Admin</span>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="action-item">
+                    <i class="fas fa-store"></i>
+                    <div class="action-text">View Store</div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ADMIN CONTAINER -->
+    <div class="admin-container">
+        <!-- ADMIN TABS -->
+        <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+            <button id="tabProducts" onclick="showTab('products')" style="padding:0.7rem 1.5rem; border:2px solid var(--primary); border-radius:var(--radius); background:var(--primary); color:#fff; font-weight:700; cursor:pointer;">🛒 Products</button>
+            <button id="tabHero" onclick="showTab('hero')" style="padding:0.7rem 1.5rem; border:2px solid var(--gray-border); border-radius:var(--radius); background:#fff; color:var(--text-dark); font-weight:700; cursor:pointer;">🖼️ Hero Banners</button>
+            <button id="tabSettings" onclick="showTab('settings')" style="padding:0.7rem 1.5rem; border:2px solid var(--gray-border); border-radius:var(--radius); background:#fff; color:var(--text-dark); font-weight:700; cursor:pointer;">⚙️ Global Settings</button>
+        </div>
+
+        <!-- PRODUCTS TAB -->
+        <div id="tabContentProducts">
+        <div class="admin-header">
+            <h1><i class="fas fa-plus-circle"></i> Add New Product</h1>
+            <p style="color: var(--text-muted);">Fill in the details below to add a product to your store</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✅ Product added successfully!
+        </div>
+
+        <div class="form-container">
+            <form id="productForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" id="productName" required placeholder="e.g., Wireless Bluetooth Headphones">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productPrice">Price ($) *</label>
+                        <input type="number" id="productPrice" step="0.01" required placeholder="49.99">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productOldPrice">Old Price ($) <small>(Optional)</small></label>
+                        <input type="number" id="productOldPrice" step="0.01" placeholder="79.99">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productCategory">Category *</label>
+                        <select id="productCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="Smartphones">Smartphones</option>
+                            <option value="Laptops">Laptops & Computers</option>
+                            <option value="Headphones">Audio & Headphones</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Smartwatches">Smartwatches</option>
+                            <option value="Cameras">Cameras</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Power">Power Banks & Chargers</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productBrand">Brand *</label>
+                        <input type="text" id="productBrand" required placeholder="e.g., TechVault">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productRating">Rating</label>
+                        <select id="productRating">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 stars)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 stars)</option>
+                            <option value="3">⭐⭐⭐ (3 stars)</option>
+                            <option value="2">⭐⭐ (2 stars)</option>
+                            <option value="1">⭐ (1 star)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productStock">Stock Quantity *</label>
+                        <input type="number" id="productStock" required placeholder="50">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="productDescription">Description *</label>
+                        <textarea id="productDescription" required placeholder="Describe your product in detail..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Image *</label>
+                        <div style="display:flex; gap:1rem; margin-bottom:0.8rem;">
+                            <label style="font-size:0.85rem; display:flex; align-items:center; gap:0.4rem; cursor:pointer;">
+                                <input type="radio" name="imageSource" value="upload" checked onchange="toggleImageInput('upload')"> Upload File
+                            </label>
+                            <label style="font-size:0.85rem; display:flex; align-items:center; gap:0.4rem; cursor:pointer;">
+                                <input type="radio" name="imageSource" value="url" onchange="toggleImageInput('url')"> Paste URL
+                            </label>
+                        </div>
+                        
+                        <div id="imageUploadWrapper">
+                            <input type="file" id="productImage" accept="image/*" style="margin-bottom: 0.5rem;">
+                        </div>
+                        <div id="imageUrlWrapper" style="display:none;">
+                            <input type="text" id="productImageUrl" placeholder="https://example.com/image.jpg" oninput="previewImageUrl(this.value)">
+                        </div>
+
+                        <div class="image-preview" id="imagePreview" style="width: 200px; height: 200px;">
+                            <i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>
+                        </div>
+                        <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;" id="imageHint">
+                            Upload a product image (JPG, PNG, or WebP). Max 2MB recommended.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Options</label>
+                        <div class="checkbox-group" style="flex-wrap: wrap;">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="productExpress"> Express Delivery
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="productFeatured" checked> Featured Product
+                            </label>
+                            <label class="checkbox-item" style="color:var(--primary); font-weight:700;">
+                                <input type="checkbox" id="productFlashSale"> <i class="fas fa-bolt"></i> Flash Sale
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- VARIATIONS SECTION -->
+                    <div class="form-group full-width" style="border-top: 1px solid var(--gray-border); padding-top: 1.5rem; margin-top: 1rem;">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary);"><i class="fas fa-sliders-h"></i> Product Variations</h4>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Add different storage sizes and colors for this product</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display:flex; align-items:center; gap:0.6rem; cursor:pointer; user-select:none;">
+                            <input type="checkbox" id="enableStorage" onchange="toggleSection('storageOptionsPanel', this.checked)"
+                                style="width:16px; height:16px; cursor:pointer;">
+                            <span style="font-weight:600;">This product has storage variants</span>
+                            <small style="color:var(--text-muted); font-weight:400;">(e.g. 64GB, 128GB — skip for earbuds, chargers, etc.)</small>
+                        </label>
+                        <div id="storageOptionsPanel" style="display:none; margin-top:0.8rem; padding:1rem; background:#f9f9f9; border-radius:var(--radius); border:1px solid var(--gray-border);">
+                            <div class="checkbox-group" id="storageOptions">
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="16GB"> 16GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="32GB"> 32GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="64GB"> 64GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="128GB"> 128GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="256GB"> 256GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="512GB"> 512GB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="1TB"> 1TB</label>
+                                <label class="checkbox-item"><input type="checkbox" name="storage" value="2TB"> 2TB</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label style="font-weight:600; display:block; margin-bottom:0.8rem;">Color Variants <small style="color:var(--text-muted); font-weight:400;">(optional — add each color the product comes in)</small></label>
+
+                        <!-- Add colour row -->
+                        <div style="display:flex; gap:0.8rem; align-items:flex-end; flex-wrap:wrap; margin-bottom:0.8rem; padding:1rem; background:#f9f9f9; border:1px solid var(--gray-border); border-radius:var(--radius);">
+                            <div>
+                                <label style="font-size:0.8rem; display:block; margin-bottom:0.3rem;">Color Name</label>
+                                <input type="text" id="colorNameInput" placeholder="e.g. Midnight Black" list="colorSuggestions"
+                                    style="padding:0.5rem 0.8rem; border:1px solid var(--gray-border); border-radius:var(--radius); font-size:0.85rem; width:170px;">
+                                <datalist id="colorSuggestions">
+                                    <option value="Black"><option value="White"><option value="Silver">
+                                    <option value="Gold"><option value="Blue"><option value="Red">
+                                    <option value="Green"><option value="Purple"><option value="Pink">
+                                    <option value="Yellow"><option value="Orange"><option value="Titanium">
+                                    <option value="Midnight"><option value="Starlight"><option value="Desert Titanium">
+                                </datalist>
+                            </div>
+                            <div>
+                                <label style="font-size:0.8rem; display:block; margin-bottom:0.3rem;">Hex Color</label>
+                                <input type="color" id="colorHexInput" value="#000000"
+                                    style="width:48px; height:36px; border:1px solid var(--gray-border); border-radius:var(--radius); cursor:pointer; padding:2px;">
+                            </div>
+                            <div style="flex:1; min-width:200px;">
+                                <label style="font-size:0.8rem; display:block; margin-bottom:0.3rem;">Photo for this color</label>
+                                <div style="display:flex; gap:0.8rem; margin-bottom:0.5rem;">
+                                    <label style="font-size:0.75rem; display:flex; align-items:center; gap:0.3rem; cursor:pointer;">
+                                        <input type="radio" name="colorImageSource" value="upload" checked onchange="toggleColorImageInput('upload')"> File
+                                    </label>
+                                    <label style="font-size:0.75rem; display:flex; align-items:center; gap:0.3rem; cursor:pointer;">
+                                        <input type="radio" name="colorImageSource" value="url" onchange="toggleColorImageInput('url')"> URL
+                                    </label>
+                                </div>
+                                <div id="colorImageUploadWrapper">
+                                    <input type="file" id="colorImageInput" accept="image/*" style="font-size:0.8rem;">
+                                </div>
+                                <div id="colorImageUrlWrapper" style="display:none;">
+                                    <input type="text" id="colorImageUrlInput" placeholder="https://example.com/color.jpg" style="padding:0.4rem; border:1px solid var(--gray-border); border-radius:var(--radius); font-size:0.8rem; width:100%;">
+                                </div>
+                            </div>
+                            <button type="button" onclick="addColorEntry()"
+                                style="padding:0.5rem 1.2rem; background:var(--secondary); color:#fff; border-radius:var(--radius); font-weight:600; border:none; cursor:pointer; white-space:nowrap;">
+                                <i class="fas fa-plus"></i> Add Color
+                            </button>
+                        </div>
+
+                        <!-- Added colours list -->
+                        <div id="colorEntriesList" style="display:flex; flex-wrap:wrap; gap:0.8rem;"></div>
+                        <small id="colorHint" style="color:var(--text-muted); font-size:0.78rem;">No colors added yet. Add at least one if this product comes in different colors.</small>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus"></i> Add Product
+                </button>
+            </form>
+        </div>
+
+        <div class="products-list">
+            <h2 style="margin-bottom: 1rem;"><i class="fas fa-box"></i> Your Products</h2>
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                    <!-- Products will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+        </div> <!-- end tabContentProducts -->
+
+        <!-- HERO BANNERS TAB -->
+        <div id="tabContentHero" style="display:none;">
+            <div class="admin-header">
+                <h1><i class="fas fa-images"></i> Hero Banner Slides</h1>
+                <p style="color: var(--text-muted);">Add promotional banner slides that appear on the homepage. Images you upload will auto-slide for customers.</p>
+            </div>
+
+            <div id="heroSuccessMessage" class="success-message">✅ Slide saved!</div>
+
+            <div class="form-container">
+                <form id="heroSlideForm">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="slideTitle">Headline Text *</label>
+                            <input type="text" id="slideTitle" required placeholder="e.g., Upgrade Your Tech Game">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="slideSubtitle">Subtitle / Description</label>
+                            <input type="text" id="slideSubtitle" placeholder="e.g., Up to 40% OFF on smartphones and laptops!">
+                        </div>
+                        <div class="form-group">
+                            <label for="slideCta">CTA Button Text</label>
+                            <input type="text" id="slideCta" placeholder="Shop Now">
+                        </div>
+                        <div class="form-group">
+                            <label for="slideCtaLink">CTA Button Link</label>
+                            <input type="text" id="slideCtaLink" placeholder="products.html" value="products.html">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="slideImage">Banner Image (recommended: 1200×400px)</label>
+                            <input type="file" id="slideImage" accept="image/*" style="margin-bottom:0.5rem;">
+                            <div class="image-preview" id="slideImagePreview" style="width:100%; height:200px; border-radius:var(--radius); overflow:hidden; background:#1c1c24; display:flex; align-items:center; justify-content:center;">
+                                <i class="fas fa-image" style="font-size:3rem; color:#555;"></i>
+                            </div>
+                            <small style="color:var(--text-muted);">Upload a wide banner image. Max 2MB recommended.</small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fas fa-plus"></i> Add Slide</button>
+                </form>
+            </div>
+
+            <!-- Existing slides list -->
+            <div class="products-list">
+                <h2 style="margin-bottom:1rem;"><i class="fas fa-images"></i> Current Slides</h2>
+                <div id="heroSlidesList">
+                    <p style="color:var(--text-muted); text-align:center; padding:2rem;">No slides yet. Add your first hero banner above!</p>
+                </div>
+            </div>
+        </div> <!-- end tabContentHero -->
+
+        <!-- GLOBAL SETTINGS TAB -->
+        <div id="tabContentSettings" style="display:none;">
+            <div class="admin-header">
+                <h1><i class="fas fa-cog"></i> Global Store Settings</h1>
+                <p style="color: var(--text-muted);">Manage store-wide configurations like Flash Sale timers.</p>
+            </div>
+
+            <div id="settingsSuccessMessage" class="success-message">✅ Settings saved!</div>
+
+            <div class="form-container">
+                <form id="globalSettingsForm">
+                    <h3 style="margin-bottom:1rem; border-bottom:1px solid var(--gray-border); padding-bottom:0.5rem;"><i class="fas fa-bolt"></i> Flash Sale Configuration</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="flashSaleEndTime">Flash Sale End Time *</label>
+                            <input type="datetime-local" id="flashSaleEndTime" required>
+                            <small style="color:var(--text-muted); display:block; margin-top:0.4rem;">Select when the flash sale countdown should hit zero.</small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Save Global Settings</button>
+                </form>
+            </div>
+        </div> <!-- end tabContentSettings -->
+
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let adminProducts = [];
+        let heroSlides = [];
+        let currentImageBase64 = null;
+        let addedColors = []; // Store dynamically added color objects {name, hex, image}
+        let editingProductId = null; // Track if we are editing an existing product
+
+        // Toggle collapsible section (used by storage/color enable toggles)
+        function toggleSection(panelId, show) {
+            const panel = document.getElementById(panelId);
+            if (panel) {
+                panel.style.display = show ? 'block' : 'none';
+                // Uncheck all checkboxes inside when hiding, to avoid ghost data
+                if (!show) {
+                    panel.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                }
+            }
+        }
+
+        // ─── IMAGE HELPERS ───
+        function toggleImageInput(source) {
+            const uploadWrapper = document.getElementById('imageUploadWrapper');
+            const urlWrapper = document.getElementById('imageUrlWrapper');
+            const hint = document.getElementById('imageHint');
+            
+            if (source === 'upload') {
+                uploadWrapper.style.display = 'block';
+                urlWrapper.style.display = 'none';
+                hint.innerText = 'Upload a product image (JPG, PNG, or WebP). Max 2MB recommended.';
+                // If we have an uploaded image, restore it in preview
+                if (currentImageBase64 && currentImageBase64.startsWith('data:')) {
+                    document.getElementById('imagePreview').innerHTML = `<img src="${currentImageBase64}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">`;
+                } else {
+                    document.getElementById('imagePreview').innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>';
+                }
+            } else {
+                uploadWrapper.style.display = 'none';
+                urlWrapper.style.display = 'block';
+                hint.innerText = 'Paste a direct image URL from the web.';
+                const urlInput = document.getElementById('productImageUrl');
+                previewImageUrl(urlInput.value);
+            }
+        }
+
+        function previewImageUrl(url) {
+            const preview = document.getElementById('imagePreview');
+            if (url && (url.startsWith('http') || url.startsWith('https'))) {
+                preview.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-exclamation-triangle\' style=\'font-size:3rem; color:var(--primary);\'></i><p style=\'font-size:0.7rem; color:var(--primary); text-align:center;\'>Invalid URL</p>'">`;
+                currentImageBase64 = url; // Save URL in same variable
+            } else {
+                preview.innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>';
+                if (!url) currentImageBase64 = null;
+            }
+        }
+
+        function toggleColorImageInput(source) {
+            const uploadWrapper = document.getElementById('colorImageUploadWrapper');
+            const urlWrapper = document.getElementById('colorImageUrlWrapper');
+            if (source === 'upload') {
+                uploadWrapper.style.display = 'block';
+                urlWrapper.style.display = 'none';
+            } else {
+                uploadWrapper.style.display = 'none';
+                urlWrapper.style.display = 'block';
+            }
+        }
+
+        // ─── COLOR VARIANTS ───
+        function addColorEntry() {
+            const name = document.getElementById('colorNameInput').value.trim();
+            const hex = document.getElementById('colorHexInput').value;
+            const imageInput = document.getElementById('colorImageInput');
+            const urlInput = document.getElementById('colorImageUrlInput');
+            const isUrl = document.querySelector('input[name="colorImageSource"]:checked').value === 'url';
+            
+            if (!name) {
+                alert('Please enter a color name!');
+                return;
+            }
+
+            const processAdd = (imageVal = null, type = 'upload') => {
+                addedColors.push({
+                    name: name,
+                    hex: hex,
+                    image: imageVal,
+                    imageType: type
+                });
+                // Reset inputs
+                document.getElementById('colorNameInput').value = '';
+                document.getElementById('colorHexInput').value = '#000000';
+                imageInput.value = '';
+                urlInput.value = '';
+                renderAddedColors();
+            };
+
+            if (isUrl) {
+                if (urlInput.value) {
+                    processAdd(urlInput.value, 'url');
+                } else {
+                    processAdd();
+                }
+            } else if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => processAdd(e.target.result, 'upload');
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                processAdd();
+            }
+        }
+
+        function removeColorEntry(index) {
+            addedColors.splice(index, 1);
+            renderAddedColors();
+        }
+
+        function renderAddedColors() {
+            const list = document.getElementById('colorEntriesList');
+            const hint = document.getElementById('colorHint');
+            
+            if (addedColors.length === 0) {
+                list.innerHTML = '';
+                hint.style.display = 'block';
+                return;
+            }
+            
+            hint.style.display = 'none';
+            list.innerHTML = addedColors.map((c, i) => `
+                <div style="display:flex; align-items:center; gap:0.8rem; padding:0.5rem; background:#fff; border:1px solid var(--gray-border); border-radius:var(--radius); position:relative;">
+                    <div style="width:24px; height:24px; border-radius:50%; background:${c.hex}; border:1px solid #ddd;"></div>
+                    <div style="font-size:0.85rem; font-weight:600;">${c.name}</div>
+                    ${c.image ? `<img src="${c.image}" style="width:30px; height:30px; object-fit:contain; border-radius:3px;">` : ''}
+                    <button type="button" onclick="removeColorEntry(${i})" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.1rem; padding:0 0.3rem;">&times;</button>
+                </div>
+            `).join('');
+        }
+
+
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                adminProducts = await response.json();
+                renderProductsTable();
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        async function fetchHeroSlides() {
+            try {
+                const response = await fetch(`${API_BASE}/hero-slides`);
+                heroSlides = await response.json();
+                renderHeroSlides();
+            } catch (error) {
+                console.error('Error fetching hero slides:', error);
+            }
+        }
+
+        // Form submission
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!currentImageBase64) {
+                alert('Please upload a product image!');
+                return;
+            }
+
+            // Get selected storage options
+            const storageOptions = Array.from(document.querySelectorAll('input[name="storage"]:checked'))
+                .map(cb => cb.value);
+
+            // Get selected color options (from dynamic builder)
+            const colorOptions = addedColors.map(c => ({
+                name: c.name,
+                hex: c.hex,
+                image: c.image,
+                imageType: c.imageType || 'upload'
+            }));
+
+            const imgSource = document.querySelector('input[name="imageSource"]:checked').value;
+
+            const newProduct = {
+                id: adminProducts.length > 0 ? Math.max(...adminProducts.map(p => p.id)) + 1 : 1,
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                oldPrice: document.getElementById('productOldPrice').value ? parseFloat(document.getElementById('productOldPrice').value) : null,
+                category: document.getElementById('productCategory').value,
+                brand: document.getElementById('productBrand').value,
+                rating: parseInt(document.getElementById('productRating').value),
+                reviews: 0,
+                discount: document.getElementById('productOldPrice').value ? 
+                    `-${Math.round((1 - document.getElementById('productPrice').value / document.getElementById('productOldPrice').value) * 100)}%` : null,
+                express: document.getElementById('productExpress').checked,
+                isFlashSale: document.getElementById('productFlashSale').checked,
+                image: currentImageBase64, // Store base64 or URL
+                imageType: imgSource, 
+                description: document.getElementById('productDescription').value,
+                stock: parseInt(document.getElementById('productStock').value),
+                featured: document.getElementById('productFeatured').checked,
+                variations: {
+                    storage: storageOptions,
+                    colors: colorOptions
+                }
+            };
+
+            const isEditing = !!editingProductId;
+            const url = isEditing ? `${API_BASE}/products/${editingProductId}` : `${API_BASE}/products`;
+            const method = isEditing ? 'PUT' : 'POST';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newProduct)
+                });
+
+                if (!response.ok) throw new Error('Failed to save product');
+
+                editingProductId = null;
+                document.querySelector('#productForm .btn-submit').innerHTML = '<i class="fas fa-plus"></i> Add Product';
+
+                // Show success message
+                const successMsg = document.getElementById('successMessage');
+                successMsg.innerHTML = isEditing ? '<i class="fas fa-check-circle"></i> Product updated successfully!' : '<i class="fas fa-check-circle"></i> Product added successfully!';
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 3000);
+
+                // Reset form and refresh
+                document.getElementById('productForm').reset();
+                currentImageBase64 = null;
+                document.getElementById('imagePreview').innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>';
+                document.getElementById('productImageUrl').value = '';
+                toggleImageInput('upload');
+                document.querySelector('input[name="imageSource"][value="upload"]').checked = true;
+                toggleSection('storageOptionsPanel', false);
+                document.getElementById('enableStorage').checked = false;
+                addedColors = [];
+                renderAddedColors();
+                
+                await fetchProducts();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        // Render products table
+        function renderProductsTable() {
+            const tbody = document.getElementById('productsTableBody');
+            if (adminProducts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No products yet. Add your first product!</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = adminProducts.map(p => `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>$${p.price.toFixed(2)}</td>
+                    <td>${p.category}</td>
+                    <td>${p.stock}</td>
+                    <td>
+                        <div style="display:flex; gap:0.5rem;">
+                            <button class="btn-edit" onclick="editProduct(${p.id})" style="background:var(--accent-blue); padding:0.4rem 0.8rem; border-radius:4px; color:#fff; border:none; cursor:pointer; font-size:0.8rem;">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete product
+        async function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    const response = await fetch(`${API_BASE}/products/${id}`, { method: 'DELETE' });
+                    if (!response.ok) throw new Error('Failed to delete product');
+                    await fetchProducts();
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            }
+        }
+
+        // Edit product
+        function editProduct(id) {
+            const product = adminProducts.find(p => p.id === id || p._id === id);
+            if (!product) return;
+
+            editingProductId = product._id || product.id;
+            
+            // Populate form fields
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productOldPrice').value = product.oldPrice || '';
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productBrand').value = product.brand;
+            document.getElementById('productRating').value = product.rating;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('productExpress').checked = product.express;
+            document.getElementById('productExpress').checked = product.express;
+            document.getElementById('productFeatured').checked = product.featured;
+            document.getElementById('productFlashSale').checked = product.isFlashSale || false;
+
+            // Handle image preview
+            currentImageBase64 = product.image;
+            const imgType = product.imageType || 'upload';
+            document.querySelector(`input[name="imageSource"][value="${imgType}"]`).checked = true;
+            toggleImageInput(imgType);
+            if (imgType === 'url') {
+                document.getElementById('productImageUrl').value = product.image || '';
+            }
+            
+            if (product.image) {
+                document.getElementById('imagePreview').innerHTML =
+                    `<img src="${product.image}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">`;
+            } else {
+                document.getElementById('imagePreview').innerHTML = 
+                    '<i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>';
+            }
+
+            // Restore variations
+            // 1. Storage
+            const storagePanel = document.getElementById('storageOptionsPanel');
+            const hasStorage = product.variations && product.variations.storage && product.variations.storage.length > 0;
+            document.getElementById('enableStorage').checked = hasStorage;
+            toggleSection('storageOptionsPanel', hasStorage);
+            
+            if (hasStorage) {
+                const checkboxes = storagePanel.querySelectorAll('input[name="storage"]');
+                checkboxes.forEach(cb => {
+                    cb.checked = product.variations.storage.includes(cb.value);
+                });
+            }
+
+            // 2. Colors
+            addedColors = product.variations && product.variations.colors ? [...product.variations.colors] : [];
+            renderAddedColors();
+
+            // Update button text
+            const submitBtn = document.querySelector('#productForm .btn-submit');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Product';
+
+            // Scroll to form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ─── TAB SWITCHING ───
+        function showTab(tab) {
+            const isProducts = tab === 'products';
+            const isHero = tab === 'hero';
+            const isSettings = tab === 'settings';
+
+            document.getElementById('tabContentProducts').style.display = isProducts ? 'block' : 'none';
+            document.getElementById('tabContentHero').style.display = isHero ? 'block' : 'none';
+            document.getElementById('tabContentSettings').style.display = isSettings ? 'block' : 'none';
+
+            const tpBtn = document.getElementById('tabProducts');
+            const thBtn = document.getElementById('tabHero');
+            const tsBtn = document.getElementById('tabSettings');
+
+            [tpBtn, thBtn, tsBtn].forEach(btn => {
+                btn.style.background = '#fff';
+                btn.style.color = 'var(--text-dark)';
+                btn.style.borderColor = 'var(--gray-border)';
+            });
+
+            const activeBtn = isProducts ? tpBtn : (isHero ? thBtn : tsBtn);
+            activeBtn.style.background = 'var(--primary)';
+            activeBtn.style.color = '#fff';
+            activeBtn.style.borderColor = 'var(--primary)';
+
+            if (isHero) renderHeroSlides();
+            if (isSettings) loadGlobalSettings();
+        }
+
+        // ─── GLOBAL SETTINGS ───
+        async function loadGlobalSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/settings`);
+                const settings = await response.json();
+                if (settings.flashSaleEndTime) {
+                    document.getElementById('flashSaleEndTime').value = settings.flashSaleEndTime;
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        document.getElementById('globalSettingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const endTime = document.getElementById('flashSaleEndTime').value;
+            const settings = { flashSaleEndTime: endTime };
+
+            try {
+                const response = await fetch(`${API_BASE}/settings`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
+                if (!response.ok) throw new Error('Failed to update settings');
+
+                const msg = document.getElementById('settingsSuccessMessage');
+                msg.style.display = 'block';
+                setTimeout(() => msg.style.display = 'none', 3000);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        // ─── HERO SLIDES ───
+        let currentSlideImageBase64 = null;
+        let currentSlideImageType = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            fetchHeroSlides();
+
+            // Product image preview
+            document.getElementById('productImage').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Warning: Large image files may slow down the store. Consider using images under 2MB.');
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        currentImageBase64 = event.target.result;
+                        document.getElementById('imagePreview').innerHTML =
+                            `<img src="${currentImageBase64}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Slide image preview
+            document.getElementById('slideImage').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Warning: Large image files may slow down the store. Consider using images under 2MB.');
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        currentSlideImageBase64 = event.target.result;
+                        currentSlideImageType = 'upload';
+                        document.getElementById('slideImagePreview').innerHTML =
+                            `<img src="${currentSlideImageBase64}" style="width:100%; height:100%; object-fit:contain; border-radius:4px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Hero slide form submit
+            document.getElementById('heroSlideForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const title = document.getElementById('slideTitle').value.trim();
+                if (!title) { alert('Please enter a headline!'); return; }
+
+                const newSlide = {
+                    title: title,
+                    subtitle: document.getElementById('slideSubtitle').value.trim(),
+                    cta: document.getElementById('slideCta').value.trim(),
+                    ctaLink: document.getElementById('slideCtaLink').value.trim() || 'products.html',
+                    image: currentSlideImageBase64 || null,
+                    imageType: currentSlideImageType || null
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE}/hero-slides`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newSlide)
+                    });
+                    if (!response.ok) throw new Error('Failed to save slide');
+
+                    await fetchHeroSlides();
+
+                    // Show success
+                    const msg = document.getElementById('heroSuccessMessage');
+                    msg.style.display = 'block';
+                    setTimeout(() => msg.style.display = 'none', 3000);
+
+                    // Reset
+                    document.getElementById('heroSlideForm').reset();
+                    currentSlideImageBase64 = null;
+                    currentSlideImageType = null;
+                    document.getElementById('slideImagePreview').innerHTML =
+                        '<i class="fas fa-image" style="font-size:3rem; color:#555;"></i>';
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            });
+        });
+
+        function renderHeroSlides() {
+            const container = document.getElementById('heroSlidesList');
+            if (!container) return;
+
+            if (heroSlides.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:2rem;">No slides yet. Add your first hero banner above!</p>';
+                return;
+            }
+
+            container.innerHTML = heroSlides.map((slide, i) => {
+                const sId = slide._id || slide.id;
+                return `
+                <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem; border-bottom:1px solid var(--gray-border);">
+                    <div style="width:160px; height:90px; border-radius:4px; overflow:hidden; background:#1c1c24; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                        ${slide.image && (slide.imageType === 'upload' || slide.imageType === 'url')
+                            ? `<img src="${slide.image}" style="width:100%; height:100%; object-fit:contain;">`
+                            : '<i class="fas fa-image" style="color:#555; font-size:2rem;"></i>'}
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-weight:700; margin-bottom:0.3rem;">${slide.title}</div>
+                        ${slide.subtitle ? `<div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.3rem;">${slide.subtitle}</div>` : ''}
+                        ${slide.cta ? `<div style="font-size:0.75rem; background:var(--primary); color:#fff; display:inline-block; padding:0.2rem 0.7rem; border-radius:3px;">${slide.cta} → ${slide.ctaLink}</div>` : ''}
+                    </div>
+                    <button class="btn-delete" onclick="deleteHeroSlide('${sId}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            `;}).join('');
+        }
+
+        async function deleteHeroSlide(id) {
+            if (confirm('Delete this slide?')) {
+                try {
+                    const response = await fetch(`${API_BASE}/hero-slides/${id}`, { method: 'DELETE' });
+                    if (!response.ok) throw new Error('Failed to delete slide');
+                    await fetchHeroSlides();
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
