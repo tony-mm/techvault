@@ -6,6 +6,7 @@
     <title>Admin - Add Products | TechVault</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="auth.js"></script>
     <style>
         .admin-container {
             max-width: 1200px;
@@ -185,6 +186,10 @@
                     <i class="fas fa-store"></i>
                     <div class="action-text">View Store</div>
                 </a>
+                <a href="#" onclick="auth.logout()" class="action-item" style="color:var(--primary);">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <div class="action-text">Logout</div>
+                </a>
             </div>
         </div>
     </header>
@@ -193,13 +198,52 @@
     <div class="admin-container">
         <!-- ADMIN TABS -->
         <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
-            <button id="tabProducts" onclick="showTab('products')" style="padding:0.7rem 1.5rem; border:2px solid var(--primary); border-radius:var(--radius); background:var(--primary); color:#fff; font-weight:700; cursor:pointer;">🛒 Products</button>
+            <button id="tabDashboard" onclick="showTab('dashboard')" style="padding:0.7rem 1.5rem; border:2px solid var(--primary); border-radius:var(--radius); background:var(--primary); color:#fff; font-weight:700; cursor:pointer;">📊 Dashboard</button>
+            <button id="tabProducts" onclick="showTab('products')" style="padding:0.7rem 1.5rem; border:2px solid var(--gray-border); border-radius:var(--radius); background:#fff; color:var(--text-dark); font-weight:700; cursor:pointer;">🛒 Products</button>
             <button id="tabHero" onclick="showTab('hero')" style="padding:0.7rem 1.5rem; border:2px solid var(--gray-border); border-radius:var(--radius); background:#fff; color:var(--text-dark); font-weight:700; cursor:pointer;">🖼️ Hero Banners</button>
             <button id="tabSettings" onclick="showTab('settings')" style="padding:0.7rem 1.5rem; border:2px solid var(--gray-border); border-radius:var(--radius); background:#fff; color:var(--text-dark); font-weight:700; cursor:pointer;">⚙️ Global Settings</button>
         </div>
 
+        <!-- DASHBOARD TAB -->
+        <div id="tabContentDashboard">
+            <div class="admin-header">
+                <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+                <p style="color: var(--text-muted);">Overview of your store's performance.</p>
+            </div>
+
+            <div class="form-grid" style="margin-bottom: 2rem;">
+                <div class="form-container" style="margin-bottom: 0; text-align: center;">
+                    <h3 style="color: var(--text-muted); font-size: 1rem;">Total Revenue</h3>
+                    <div id="statRevenue" style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-top: 0.5rem;">$0.00</div>
+                </div>
+                <div class="form-container" style="margin-bottom: 0; text-align: center;">
+                    <h3 style="color: var(--text-muted); font-size: 1rem;">Items Sold</h3>
+                    <div id="statItemsSold" style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-top: 0.5rem;">0</div>
+                </div>
+            </div>
+
+            <div class="products-list">
+                <h2 style="margin-bottom: 1rem;"><i class="fas fa-shopping-bag"></i> Recent Orders</h2>
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentOrdersTableBody">
+                        <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- PRODUCTS TAB -->
-        <div id="tabContentProducts">
+        <div id="tabContentProducts" style="display:none;">
         <div class="admin-header">
             <h1><i class="fas fa-plus-circle"></i> Add New Product</h1>
             <p style="color: var(--text-muted);">Fill in the details below to add a product to your store</p>
@@ -498,6 +542,20 @@
         let addedColors = []; // Store dynamically added color objects {name, hex, image}
         let editingProductId = null; // Track if we are editing an existing product
 
+        // Helper for fetch with auth
+        async function fetchWithAuth(url, options = {}) {
+            options.headers = {
+                ...options.headers,
+                ...auth.getHeaders()
+            };
+            const response = await fetch(url, options);
+            if (response.status === 401) {
+                auth.logout();
+                return;
+            }
+            return response;
+        }
+
         // Toggle collapsible section (used by storage/color enable toggles)
         function toggleSection(panelId, show) {
             const panel = document.getElementById(panelId);
@@ -631,7 +689,8 @@
 
         async function fetchProducts() {
             try {
-                const response = await fetch(`${API_BASE}/products`);
+                const response = await fetchWithAuth(`${API_BASE}/products`);
+                if (!response) return;
                 adminProducts = await response.json();
                 renderProductsTable();
             } catch (error) {
@@ -641,7 +700,8 @@
 
         async function fetchHeroSlides() {
             try {
-                const response = await fetch(`${API_BASE}/hero-slides`);
+                const response = await fetchWithAuth(`${API_BASE}/hero-slides`);
+                if (!response) return;
                 heroSlides = await response.json();
                 renderHeroSlides();
             } catch (error) {
@@ -701,13 +761,13 @@
             const method = isEditing ? 'PUT' : 'POST';
 
             try {
-                const response = await fetch(url, {
+                const response = await fetchWithAuth(url, {
                     method: method,
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newProduct)
                 });
 
-                if (!response.ok) throw new Error('Failed to save product');
+                if (!response || !response.ok) throw new Error('Failed to save product');
 
                 editingProductId = null;
                 document.querySelector('#productForm .btn-submit').innerHTML = '<i class="fas fa-plus"></i> Add Product';
@@ -771,8 +831,8 @@
         async function deleteProduct(id) {
             if (confirm('Are you sure you want to delete this product?')) {
                 try {
-                    const response = await fetch(`${API_BASE}/products/${id}`, { method: 'DELETE' });
-                    if (!response.ok) throw new Error('Failed to delete product');
+                    const response = await fetchWithAuth(`${API_BASE}/products/${id}`, { method: 'DELETE' });
+                    if (!response || !response.ok) throw new Error('Failed to delete product');
                     await fetchProducts();
                 } catch (error) {
                     alert('Error: ' + error.message);
@@ -846,37 +906,77 @@
 
         // ─── TAB SWITCHING ───
         function showTab(tab) {
+            const isDashboard = tab === 'dashboard';
             const isProducts = tab === 'products';
             const isHero = tab === 'hero';
             const isSettings = tab === 'settings';
 
+            document.getElementById('tabContentDashboard').style.display = isDashboard ? 'block' : 'none';
             document.getElementById('tabContentProducts').style.display = isProducts ? 'block' : 'none';
             document.getElementById('tabContentHero').style.display = isHero ? 'block' : 'none';
             document.getElementById('tabContentSettings').style.display = isSettings ? 'block' : 'none';
 
+            const tdBtn = document.getElementById('tabDashboard');
             const tpBtn = document.getElementById('tabProducts');
             const thBtn = document.getElementById('tabHero');
             const tsBtn = document.getElementById('tabSettings');
 
-            [tpBtn, thBtn, tsBtn].forEach(btn => {
+            [tdBtn, tpBtn, thBtn, tsBtn].forEach(btn => {
                 btn.style.background = '#fff';
                 btn.style.color = 'var(--text-dark)';
                 btn.style.borderColor = 'var(--gray-border)';
             });
 
-            const activeBtn = isProducts ? tpBtn : (isHero ? thBtn : tsBtn);
+            const activeBtn = isDashboard ? tdBtn : (isProducts ? tpBtn : (isHero ? thBtn : tsBtn));
             activeBtn.style.background = 'var(--primary)';
             activeBtn.style.color = '#fff';
             activeBtn.style.borderColor = 'var(--primary)';
 
+            if (isDashboard) fetchDashboardStats();
             if (isHero) renderHeroSlides();
             if (isSettings) loadGlobalSettings();
+        }
+
+        // ─── DASHBOARD ───
+        async function fetchDashboardStats() {
+            try {
+                const response = await fetchWithAuth(`${API_BASE}/orders/stats`);
+                if (!response) return;
+                const stats = await response.json();
+                
+                document.getElementById('statRevenue').innerText = `$${stats.totalRevenue.toFixed(2)}`;
+                document.getElementById('statItemsSold').innerText = stats.totalItemsSold;
+                
+                const tbody = document.getElementById('recentOrdersTableBody');
+                if (!stats.recentOrders || stats.recentOrders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No sales yet.</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = stats.recentOrders.map(order => {
+                    const date = new Date(order.createdAt).toLocaleString();
+                    const itemName = order.items.length > 0 ? order.items[0].name + (order.items.length > 1 ? ` (+${order.items.length - 1} more)` : '') : 'N/A';
+                    return `
+                    <tr>
+                        <td style="font-family: monospace; font-size: 0.85rem;">${order.id}</td>
+                        <td style="font-size: 0.85rem;">${date}</td>
+                        <td>${order.customerInfo && order.customerInfo.name ? order.customerInfo.name : 'Guest'}</td>
+                        <td style="font-size: 0.85rem;">${itemName}</td>
+                        <td style="font-weight: 600;">$${order.totalAmount.toFixed(2)}</td>
+                        <td><span style="background: #d4edda; color: #155724; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${order.status || 'completed'}</span></td>
+                    </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error fetching dashboard stats:', error);
+            }
         }
 
         // ─── GLOBAL SETTINGS ───
         async function loadGlobalSettings() {
             try {
-                const response = await fetch(`${API_BASE}/settings`);
+                const response = await fetchWithAuth(`${API_BASE}/settings`);
+                if (!response) return;
                 const settings = await response.json();
                 if (settings.flashSaleEndTime) {
                     document.getElementById('flashSaleEndTime').value = settings.flashSaleEndTime;
@@ -892,12 +992,12 @@
             const settings = { flashSaleEndTime: endTime };
 
             try {
-                const response = await fetch(`${API_BASE}/settings`, {
+                const response = await fetchWithAuth(`${API_BASE}/settings`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(settings)
                 });
-                if (!response.ok) throw new Error('Failed to update settings');
+                if (!response || !response.ok) throw new Error('Failed to update settings');
 
                 const msg = document.getElementById('settingsSuccessMessage');
                 msg.style.display = 'block';
@@ -912,6 +1012,7 @@
         let currentSlideImageType = null;
 
         document.addEventListener('DOMContentLoaded', () => {
+            fetchDashboardStats();
             fetchProducts();
             fetchHeroSlides();
 
@@ -966,12 +1067,12 @@
                 };
 
                 try {
-                    const response = await fetch(`${API_BASE}/hero-slides`, {
+                    const response = await fetchWithAuth(`${API_BASE}/hero-slides`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newSlide)
                     });
-                    if (!response.ok) throw new Error('Failed to save slide');
+                    if (!response || !response.ok) throw new Error('Failed to save slide');
 
                     await fetchHeroSlides();
 
@@ -1025,8 +1126,8 @@
         async function deleteHeroSlide(id) {
             if (confirm('Delete this slide?')) {
                 try {
-                    const response = await fetch(`${API_BASE}/hero-slides/${id}`, { method: 'DELETE' });
-                    if (!response.ok) throw new Error('Failed to delete slide');
+                    const response = await fetchWithAuth(`${API_BASE}/hero-slides/${id}`, { method: 'DELETE' });
+                    if (!response || !response.ok) throw new Error('Failed to delete slide');
                     await fetchHeroSlides();
                 } catch (error) {
                     alert('Error: ' + error.message);

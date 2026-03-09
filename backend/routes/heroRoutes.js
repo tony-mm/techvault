@@ -6,11 +6,13 @@ const {
     deleteHeroSlide
 } = require('../controllers/heroController');
 
+const { protect } = require('../middleware/authMiddleware');
+
 router.route('/')
     .get(getHeroSlides)
-    .post(createHeroSlide);
+    .post(protect, createHeroSlide);
 
 router.route('/:id')
-    .delete(deleteHeroSlide);
+    .delete(protect, deleteHeroSlide);
 
 module.exports = router;

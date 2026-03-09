@@ -5,8 +5,10 @@ const {
     updateSettings
 } = require('../controllers/settingsController');
 
+const { protect } = require('../middleware/authMiddleware');
+
 router.route('/')
     .get(getSettings)
-    .put(updateSettings);
+    .put(protect, updateSettings);
 
 module.exports = router;

@@ -9,6 +9,8 @@ const { initializeDB } = require('./backend/config/dbAdapter');
 const productRoutes = require('./backend/routes/productRoutes');
 const heroRoutes = require('./backend/routes/heroRoutes');
 const settingsRoutes = require('./backend/routes/settingsRoutes');
+const authRoutes = require('./backend/routes/authRoutes');
+const { protect } = require('./backend/middleware/authMiddleware');
 
 const path = require('path');
 
@@ -25,10 +27,14 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' })); // Higher limit for base64 images
 app.use(morgan('dev'));
 
+const orderRoutes = require('./backend/routes/orderRoutes');
+
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/hero-slides', heroRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Static Files
 app.use(express.static(__dirname));

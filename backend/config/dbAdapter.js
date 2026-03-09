@@ -12,9 +12,24 @@ const initializeDB = () => {
         const initialData = {
             products: [],
             heroSlides: [],
-            settings: { flashSaleEndTime: '' }
+            settings: { flashSaleEndTime: '' },
+            users: [],
+            orders: []
         };
         fs.writeFileSync(DB_PATH, JSON.stringify(initialData, null, 2));
+    } else {
+        // Ensure missing collections are added to existing DB
+        const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        let modified = false;
+        if (!data.users) { data.users = []; modified = true; }
+        if (!data.products) { data.products = []; modified = true; }
+        if (!data.heroSlides) { data.heroSlides = []; modified = true; }
+        if (!data.settings) { data.settings = { flashSaleEndTime: '' }; modified = true; }
+        if (!data.orders) { data.orders = []; modified = true; }
+        
+        if (modified) {
+            fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+        }
     }
 };
 

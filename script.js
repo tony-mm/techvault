@@ -592,7 +592,7 @@ function loadProductDetail() {
                 variationText = parts.join(' / ');
             }
             for (let i = 0; i < qty; i++) {
-                addToCart(product.name, product.price, variationText);
+                addToCart(product.id || product._id, product.name, product.price, variationText);
             }
         };
     }
@@ -846,17 +846,19 @@ function closeCart() {
     if (overlay) overlay.classList.remove('open');
 }
 
-function addToCart(name, price, variation = '') {
+function addToCart(id, name, price, variation = '') {
     const cartKey = variation ? `${name} (${variation})` : name;
-    const existing = cart.find(i => i.name === cartKey);
+    const existing = cart.find(i => i.name === cartKey && (i.id === id || (!i.id))); // Fallback for old localstorage
 
     if (existing) {
         existing.qty++;
+        if (id && !existing.id) existing.id = id; // Backfill id if missing
     } else {
         cart.push({
+            id: id,
             name: cartKey,
             baseName: name,
-            price,
+            price: price,
             qty: 1,
             variation: variation || null
         });
@@ -991,20 +993,63 @@ async function setupFlashSaleTimer() {
     setInterval(update, 1000);
 }
 
-// ── Checkout (Demo) ──
+// ── Checkout ──
 document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.querySelector('.checkout-btn');
     if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
+        checkoutBtn.addEventListener('click', async () => {
             if (cart.length === 0) {
                 showToast('Your cart is empty!');
                 return;
             }
-            alert('🎉 Thank you for your order!\n\nThis is a demo checkout. In a real store, you would be redirected to payment processing.');
-            cart = [];
-            saveCart();
-            updateCartUI();
-            closeCart();
+            
+            checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            checkoutBtn.disabled = true;
+
+            try {
+                // Prepare order payload
+                const totalAmount = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+                const orderData = {
+                    totalAmount: totalAmount,
+                    items: cart.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.qty,
+                        options: item.variation
+                    })),
+                    customerInfo: { name: 'Guest Customer' }
+                };
+
+                // Send to backend
+                const response = await fetch(`${API_BASE}/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message || 'Checkout failed');
+                }
+
+                showToast('🎉 Order placed successfully!');
+                cart = [];
+                saveCart();
+                renderCart();
+                updateCartUI();
+                
+                // Refresh product data on page to update stock
+                await initializeData();
+                closeCart();
+                
+            } catch (error) {
+                showToast(`Error: ${error.message}`);
+                console.error('Checkout error:', error);
+            } finally {
+                checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> SECURE CHECKOUT';
+                checkoutBtn.disabled = false;
+            }
         });
     }
 });
